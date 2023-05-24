@@ -7,6 +7,10 @@ export class OrdersService {
   constructor(private readonly ordersRepository: OrdersRepository) {}
 
   createOrder(request: CreateOrderRequest) {
-    return this.ordersRepository.createOrder(request);
+    return this.ordersRepository.create(request);
+  }
+
+  getOrders() {
+    return this.ordersRepository.find({});
   }
 }

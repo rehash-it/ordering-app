@@ -19,40 +19,44 @@ services:
     ports:
       - '3000:3000'
   mongodb-primary:
-    image: docker.io/bitnami/mongodb:6.0
+    image: arm64v8/mongo:6.0
+    platform: linux/arm64/v8
     environment:
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_ROOT_PASSWORD=password123
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGO_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGO_REPLICA_SET_MODE=primary
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+      - MONGO_REPLICA_SET_KEY=replicasetkey123
     volumes:
-      - 'mongodb_master_data:/bitnami/mongodb'
+      - 'mongodb_master_data:/data/mongodb'
     ports:
       - '27017:27017'
 
   mongodb-secondary:
-     image: arm64v8/mongo:4.0
+    image: arm64v8/mongo:6.0
     platform: linux/arm64/v8
     depends_on:
       - mongodb-primary
     environment:
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
-      - MONGODB_REPLICA_SET_MODE=secondary
-      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
-      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGO_ADVERTISED_HOSTNAME=mongodb-secondary
+      - MONGO_REPLICA_SET_MODE=secondary
+      - MONGO_PRIMARY_HOST=mongodb-primary
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+      - MONGO_REPLICA_SET_KEY=replicasetkey123
 
   mongodb-arbiter:
-    image: arm64v8/mongo:4.0
+    image: arm64v8/mongo:6.0
     platform: linux/arm64/v8
     depends_on:
       - mongodb-primary
     environment:
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-arbiter
-      - MONGODB_REPLICA_SET_MODE=arbiter
-      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
-      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGO_ADVERTISED_HOSTNAME=mongodb-arbiter
+      - MONGO_REPLICA_SET_MODE=arbiter
+      - MONGO_PRIMARY_HOST=mongodb-primary
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+      - MONGO_REPLICA_SET_KEY=replicasetkey123
 
 volumes:
   mongodb_master_data:
