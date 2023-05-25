@@ -8,7 +8,7 @@ export class OrdersController {
 
   @Post()
   async createOrder(@Body() request: CreateOrderRequest) {
-    this.ordersService.createOrder(request);
+    return this.ordersService.createOrder(request);
   }
 
   @Get()

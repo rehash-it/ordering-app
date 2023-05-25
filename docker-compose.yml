@@ -11,8 +11,8 @@ services:
       - ./apps/orders/.env
     depends_on:
       - mongodb-primary
-      - mongodb-secondary
-      - mongodb-arbiter
+      # - mongodb-secondary
+      # - mongodb-arbiter
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -29,8 +29,8 @@ services:
       - ./apps/billing/.env
     depends_on:
       - mongodb-primary
-      - mongodb-secondary
-      - mongodb-arbiter
+      # - mongodb-secondary
+      # - mongodb-arbiter
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -54,31 +54,31 @@ services:
     ports:
       - '27017:27017'
 
-  mongodb-secondary:
-    image: arm64v8/mongo:6.0
-    platform: linux/arm64/v8
-    depends_on:
-      - mongodb-primary
-    environment:
-      - MONGO_ADVERTISED_HOSTNAME=mongodb-secondary
-      - MONGO_REPLICA_SET_MODE=secondary
-      - MONGO_PRIMARY_HOST=mongodb-primary
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password123
-      - MONGO_REPLICA_SET_KEY=replicasetkey123
+  # mongodb-secondary:
+  #   image: arm64v8/mongo:6.0
+  #   platform: linux/arm64/v8
+  #   depends_on:
+  #     - mongodb-primary
+  #   environment:
+  #     - MONGO_ADVERTISED_HOSTNAME=mongodb-secondary
+  #     - MONGO_REPLICA_SET_MODE=secondary
+  #     - MONGO_PRIMARY_HOST=mongodb-primary
+  #     - MONGO_INITDB_ROOT_USERNAME=root
+  #     - MONGO_INITDB_ROOT_PASSWORD=password123
+  #     - MONGO_REPLICA_SET_KEY=replicasetkey123
 
-  mongodb-arbiter:
-    image: arm64v8/mongo:6.0
-    platform: linux/arm64/v8
-    depends_on:
-      - mongodb-primary
-    environment:
-      - MONGO_ADVERTISED_HOSTNAME=mongodb-arbiter
-      - MONGO_REPLICA_SET_MODE=arbiter
-      - MONGO_PRIMARY_HOST=mongodb-primary
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password123
-      - MONGO_REPLICA_SET_KEY=replicasetkey123
+  # mongodb-arbiter:
+  #   image: arm64v8/mongo:6.0
+  #   platform: linux/arm64/v8
+  #   depends_on:
+  #     - mongodb-primary
+  #   environment:
+  #     - MONGO_ADVERTISED_HOSTNAME=mongodb-arbiter
+  #     - MONGO_REPLICA_SET_MODE=arbiter
+  #     - MONGO_PRIMARY_HOST=mongodb-primary
+  #     - MONGO_INITDB_ROOT_USERNAME=root
+  #     - MONGO_INITDB_ROOT_PASSWORD=password123
+  #     - MONGO_REPLICA_SET_KEY=replicasetkey123
 
 volumes:
   mongodb_master_data:
